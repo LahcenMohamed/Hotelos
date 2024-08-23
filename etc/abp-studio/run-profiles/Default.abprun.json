@@ -1,0 +1,10 @@
+﻿{
+  "applications": {
+    "Hotelos.HttpApi.Host": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44347",
+      "path": "../../../src/Hotelos.HttpApi.Host/Hotelos.HttpApi.Host.csproj",
+      "kubernetesService": ".*-httpapihost$"  
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "6eb7722d-73ca-4a8d-b146-810ce4bdcd30",
+  "template": "app",
+  "versions": {
+    "AbpFramework": "8.2.1",
+    "AbpStudio": "0.7.5"
+  },
+  "modules": {
+    "Hotelos": {
+      "path": "Hotelos.abpmdl"
+    }
+  }, 
+  "runProfiles": {
+    "Default": {
+      "path": "etc/abp-studio/run-profiles/Default.abprun.json"
+    }
+  },
+  "options": {
+    "httpRequests": {
+        "ignoredUrls": [
+          "^/metrics$"
+      ]
+    }
+  }
+}
