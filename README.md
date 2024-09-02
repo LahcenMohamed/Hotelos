@@ -6,8 +6,7 @@ This is a layered startup solution based on [Domain Driven Design (DDD)](https:/
 
 ### Pre-requirements
 
-* [.+ SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node v18 or 20](https://nodejs.org/en)
+* [.Net 8 SDK](https://dotnet.microsoft.com/download/dotnet)
 
 ### Configurations
 
