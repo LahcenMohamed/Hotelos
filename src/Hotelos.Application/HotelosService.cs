@@ -5,9 +5,9 @@ namespace Hotelos;
 
 /* Inherit your application services from this class.
  */
-public abstract class HotelosAppService : ApplicationService
+public abstract class HotelosService : ApplicationService
 {
-    protected HotelosAppService()
+    protected HotelosService()
     {
         LocalizationResource = typeof(HotelosResource);
     }

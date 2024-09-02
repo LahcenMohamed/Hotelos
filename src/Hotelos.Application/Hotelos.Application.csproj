@@ -5,7 +5,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <RootNamespace>Hotelos</RootNamespace>
+    <UserSecretsId>fb016d72-4e29-4a4b-a85b-060067a090d6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
+    <PackageReference Include="Riok.Mapperly" Version="3.6.0" />
+    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="8.2.2" />
     <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="8.2.1" />
     <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="8.2.1" />
     <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="8.2.1" />
