@@ -25,10 +25,19 @@ namespace Hotelos.Application.Custom
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(IdentityUser user)
         {
             var identity = await base.GenerateClaimsAsync(user);
-            var hotel = await _repository.FirstOrDefaultAsync(x => x.UserId == user.Id);
 
-            identity.AddClaim(new Claim("hotelId", hotel.Id.ToString()));
+            //if (await UserManager.IsInRoleAsync(user, "Hotel"))
+            //{
+            //    var hotel = await _repository.FirstOrDefaultAsync(x => x.UserId == user.Id);
+
+            //    if (hotel != null)
+            //    {
+            //        identity.AddClaim(new Claim("hotelId", hotel.Id.ToString()));
+            //    }
+            //}
+
             return identity;
         }
+
     }
 }

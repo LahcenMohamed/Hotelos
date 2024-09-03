@@ -1,29 +1,26 @@
 {
   "culture": "fr",
   "texts": {
-    "Menu:Home": "Acceuil",
-    "Menu:ContactUs": "Nous contacter",
-    "Menu:ArticleSample": "Échantillon d'article",
-    "Home": "Acceuil",
+    "Menu:Home": "Accueil",
     "Welcome": "Bienvenue",
-    "LongWelcomeMessage": "Bienvenue dans l'application. Il s'agit d'un projet de démarrage basé sur le framework ABP. Pour plus d'informations, visitez",
-    "Date": "Date",
-    "Permission:Dashboard": "Tableau de bord",
-    "Menu:Dashboard": "Tableau de bord",
-    "Menu:HomePage": "Page d'accueil",
-    "Dashboard": "Tableau de bord",
-    "ExternalProvider:Google": "Google",
-    "ExternalProvider:Google:ClientId": "identité du client",
-    "ExternalProvider:Google:ClientSecret": "Secret du client",
-    "ExternalProvider:Microsoft": "Microsoft",
-    "ExternalProvider:Microsoft:ClientId": "identité du client",
-    "ExternalProvider:Microsoft:ClientSecret": "Secret du client",
-    "ExternalProvider:Twitter": "Twitter",
-    "ExternalProvider:Twitter:ConsumerKey": "La clé du consommateur",
-    "ExternalProvider:Twitter:ConsumerSecret": "Secret du consommateur",
-    "NewsletterHeader": "Abonnez-vous à la newsletter!",
-    "NewsletterInfo": "Obtenez des informations sur les derniers événements.",
-    "NewsletterPreference_Default": "Newsletter par défaut",
-    "NewsletterPrivacyAcceptMessage": "J'accepte la <a href='/privacy-policy'> Politique de confidentialité </a>."
+    "LongWelcomeMessage": "Bienvenue dans l'application. Il s'agit d'un projet de démarrage basé sur le framework ABP. Pour plus d'informations, visitez abp.io."
+  },
+
+  "Permission": {
+    "Name": "types de chambre",
+    "RoomTypes": {
+      "Create": "Ajouter un type de chambre",
+      "Update": "Modifier le type de chambre",
+      "Delete": "Supprimer le type de chambre",
+      "GetAll": "Obtenir tous les types de chambres"
+    },
+    "Floors": {
+      "Name": "Étages",
+      "Create": "Ajouter un étage",
+      "Update": "Modifier l'étage",
+      "Delete": "Supprimer l'étage",
+      "GetAll": "Obtenir tous les étages"
+    }
   }
+
 }

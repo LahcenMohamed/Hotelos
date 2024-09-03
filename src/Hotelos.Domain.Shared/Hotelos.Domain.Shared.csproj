@@ -28,9 +28,4 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Localization\Hotelos\*.json" />
-    <Content Remove="Localization\Hotelos\*.json" />
-  </ItemGroup>
-
 </Project>

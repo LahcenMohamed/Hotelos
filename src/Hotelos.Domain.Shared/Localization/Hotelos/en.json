@@ -1,9 +1,26 @@
 {
-  "Culture": "en",
-  "Texts": {
-    "AppName": "Hotelos",
+  "culture": "en",
+  "texts": {
     "Menu:Home": "Home",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit",
-    "Welcome": "Welcome"
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+  },
+
+  "Permission": {
+    "RoomTypes": {
+      "Name": "Room Types",
+      "Create": "Add room type",
+      "Update": "Edit room type",
+      "Delete": "Remove room type",
+      "GetAll": "Get All room types"
+    },
+    "Floors": {
+      "Name": "Floors",
+      "Create": "Add floor",
+      "Update": "Edit floor",
+      "Delete": "Remove floor",
+      "GetAll": "Get All floors"
+    }
   }
+
 }
