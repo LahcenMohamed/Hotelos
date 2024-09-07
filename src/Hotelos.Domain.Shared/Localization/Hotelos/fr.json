@@ -20,7 +20,15 @@
       "Update": "Modifier l'étage",
       "Delete": "Supprimer l'étage",
       "GetAll": "Obtenir tous les étages"
+    },
+    "Rooms": {
+      "Name": "Chambres",
+      "Create": "Ajouter une chambre",
+      "Update": "Modifier la chambre",
+      "Delete": "Supprimer la chambre",
+      "Get": "Obtenir les chambres"
     }
+
   }
 
 }

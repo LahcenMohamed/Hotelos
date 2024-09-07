@@ -20,6 +20,13 @@
       "Update": "Edit floor",
       "Delete": "Remove floor",
       "GetAll": "Get All floors"
+    },
+    "Rooms": {
+      "Name": "Rooms",
+      "Create": "Add room",
+      "Update": "Edit room",
+      "Delete": "Remove room",
+      "Get": "Get rooms"
     }
   }
 

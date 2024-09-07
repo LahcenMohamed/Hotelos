@@ -1,4 +1,5 @@
 using Hotelos.Domain.Hotels;
+using Hotelos.Domain.Rooms;
 using Hotelos.Domain.Rooms.Entities.Floors;
 using Hotelos.Domain.Rooms.Entities.RoomsTypes;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +62,7 @@ public class HotelosDbContext :
     public DbSet<Hotel> Hotels { get; set; }
     public DbSet<Floor> Floors { get; set; }
     public DbSet<RoomType> RoomTypes { get; set; }
+    public DbSet<Room> Rooms { get; set; }
 
     #endregion
 
