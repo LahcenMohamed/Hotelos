@@ -12,22 +12,38 @@
       "Create": "Ajouter un type de chambre",
       "Update": "Modifier le type de chambre",
       "Delete": "Supprimer le type de chambre",
-      "GetAll": "Obtenir tous les types de chambres"
+      "GetAll": "Afficher tous les types de chambres"
     },
     "Floors": {
       "Name": "Étages",
       "Create": "Ajouter un étage",
       "Update": "Modifier l'étage",
       "Delete": "Supprimer l'étage",
-      "GetAll": "Obtenir tous les étages"
+      "GetAll": "Afficher tous les étages"
     },
     "Rooms": {
       "Name": "Chambres",
       "Create": "Ajouter une chambre",
       "Update": "Modifier la chambre",
       "Delete": "Supprimer la chambre",
-      "Get": "Obtenir les chambres"
+      "Get": "Afficher les chambres"
+    },
+    "Clients": {
+      "Name": "Clients",
+      "Create": "Ajouter un client",
+      "Update": "Modifier le client",
+      "Delete": "Supprimer le client",
+      "Get": "Afficher les clients"
+    },
+    "Service": {
+      "Name": "Services",
+      "Create": "Ajouter un service",
+      "Update": "Modifier le service",
+      "Delete": "Supprimer le service",
+      "Get": "Afficher les services"
     }
+
+
 
   }
 

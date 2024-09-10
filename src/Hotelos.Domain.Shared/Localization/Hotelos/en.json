@@ -27,6 +27,20 @@
       "Update": "Edit room",
       "Delete": "Remove room",
       "Get": "Get rooms"
+    },
+    "Clients": {
+      "Name": "Clients",
+      "Create": "Add client",
+      "Update": "Edit client",
+      "Delete": "Remove client",
+      "Get": "Get clients"
+    },
+    "Service": {
+      "Name": "Services",
+      "Create": "Add service",
+      "Update": "Edit service",
+      "Delete": "Remove service",
+      "Get": "Show services"
     }
   }
 

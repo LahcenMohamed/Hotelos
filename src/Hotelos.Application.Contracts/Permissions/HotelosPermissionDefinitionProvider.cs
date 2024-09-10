@@ -30,6 +30,19 @@ public class HotelosPermissionDefinitionProvider : PermissionDefinitionProvider
         roomGroup.AddPermission(HotelosPermissions.UpdateRoom, L("Permission:Rooms:Update"));
         roomGroup.AddPermission(HotelosPermissions.DeleteRoom, L("Permission:Rooms:Delete"));
         roomGroup.AddPermission(HotelosPermissions.GetRooms, L("Permission:Rooms:Get"));
+
+        var clientGroup = context.AddGroup(HotelosPermissions.ClientGroupName, L("Permission:Clients:Name"));
+        clientGroup.AddPermission(HotelosPermissions.CreateClient, L("Permission:Clients:Create"));
+        clientGroup.AddPermission(HotelosPermissions.UpdateClient, L("Permission:Clients:Update"));
+        clientGroup.AddPermission(HotelosPermissions.DeleteClient, L("Permission:Clients:Delete"));
+        clientGroup.AddPermission(HotelosPermissions.GetClients, L("Permission:Clients:Get"));
+
+        var serviceGroup = context.AddGroup(HotelosPermissions.ServiceGroupName, L("Permission:Services:Name"));
+        serviceGroup.AddPermission(HotelosPermissions.CreateService, L("Permission:Services:Create"));
+        serviceGroup.AddPermission(HotelosPermissions.UpdateService, L("Permission:Services:Update"));
+        serviceGroup.AddPermission(HotelosPermissions.DeleteService, L("Permission:Services:Delete"));
+        serviceGroup.AddPermission(HotelosPermissions.GetServices, L("Permission:Services:Get"));
+
         //Define your own permissions here. Example:
         //myGroup.AddPermission(HotelosPermissions.MyPermission1, L("Permission:MyPermission1"));
     }

@@ -1,7 +1,9 @@
+using Hotelos.Domain.Clients;
 using Hotelos.Domain.Hotels;
 using Hotelos.Domain.Rooms;
 using Hotelos.Domain.Rooms.Entities.Floors;
 using Hotelos.Domain.Rooms.Entities.RoomsTypes;
+using Hotelos.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -63,6 +65,8 @@ public class HotelosDbContext :
     public DbSet<Floor> Floors { get; set; }
     public DbSet<RoomType> RoomTypes { get; set; }
     public DbSet<Room> Rooms { get; set; }
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Service> Services { get; set; }
 
     #endregion
 

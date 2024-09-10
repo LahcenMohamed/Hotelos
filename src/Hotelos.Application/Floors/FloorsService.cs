@@ -7,7 +7,6 @@ using Hotelos.Application.Floors.Validators;
 using Hotelos.Domain.Rooms.Entities.Floors;
 using Hotelos.Permissions;
 using Microsoft.AspNetCore.Authorization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,9 +32,7 @@ namespace Hotelos.Application.Floors
                 throw new ValidationException(message);
             }
 
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
-            Guid userId = (Guid)CurrentUser.Id;
+            (var hotelId, var userId) = GetHotelIdAndUserId();
 
             Floor floor = Floor.Create(createFloorDtos.Name,
                                        hotelId,
@@ -58,9 +55,7 @@ namespace Hotelos.Application.Floors
                 throw new ValidationException(message);
             }
 
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
-            Guid userId = (Guid)CurrentUser.Id;
+            (var hotelId, var userId) = GetHotelIdAndUserId();
 
             var floor = await _floorRepository.FirstOrDefaultAsync(x => x.Id == updateFloorDto.Id && x.HotelId == hotelId);
 
@@ -82,8 +77,7 @@ namespace Hotelos.Application.Floors
         [Authorize(HotelosPermissions.DeleteFloor)]
         public async Task<string> Delete(int id)
         {
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
+            (var hotelId, var userId) = GetHotelIdAndUserId();
 
             var floor = await _floorRepository.FirstOrDefaultAsync(x => x.Id == id && x.HotelId == hotelId);
             if (floor is null)
@@ -98,8 +92,7 @@ namespace Hotelos.Application.Floors
         [Authorize(HotelosPermissions.GetAllFloors)]
         public async Task<List<GetFloorDto>> GetAll()
         {
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
+            (var hotelId, var userId) = GetHotelIdAndUserId();
             var cachingResult = await _floorDistributedCache.GetOrAddAsync($"GetAllFloorsOfUser_{hotelId}",
                                                             async () => await GetAllFromDb());
             return cachingResult;
@@ -107,8 +100,7 @@ namespace Hotelos.Application.Floors
 
         private async Task<List<GetFloorDto>> GetAllFromDb()
         {
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
+            (var hotelId, var userId) = GetHotelIdAndUserId();
 
             var floors = await _floorRepository.GetQueryableAsync();
             return floors.Where(x => x.HotelId == hotelId).ToResult().ToList();

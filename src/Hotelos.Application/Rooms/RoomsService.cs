@@ -9,7 +9,6 @@ using Hotelos.Domain.Rooms.Entities.Floors;
 using Hotelos.Domain.Rooms.Entities.RoomsTypes;
 using Hotelos.Permissions;
 using Microsoft.AspNetCore.Authorization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,9 +37,7 @@ namespace Hotelos.Application.Rooms
                 var erorrs = ValidationErorrResult(validateResult);
                 throw new UnprocessableEntityException(erorrs);
             }
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
-            Guid userId = (Guid)CurrentUser.Id;
+            (var hotelId, var userId) = GetHotelIdAndUserId();
 
             var room = Room.Create(createRoomDto.Number,
                                    createRoomDto.CountOfBeds,
@@ -62,9 +59,7 @@ namespace Hotelos.Application.Rooms
         [Authorize(HotelosPermissions.DeleteRoom)]
         public async Task Delete(int roomId)
         {
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
-            Guid userId = (Guid)CurrentUser.Id;
+            (var hotelId, var userId) = GetHotelIdAndUserId();
 
             var room = await _roomRepository.FirstOrDefaultAsync(x => x.Id == roomId && x.HotelId == hotelId);
             if (room is null)
@@ -79,8 +74,8 @@ namespace Hotelos.Application.Rooms
         [Authorize(HotelosPermissions.GetRooms)]
         public async Task<List<GetRoomDto>> GetAll(GetRoomsRequestDto getRoomsRequestDto)
         {
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
+            (var hotelId, var userId) = GetHotelIdAndUserId();
+
             var rooms = await _roomDtoListdistributedCache.GetOrAddAsync($"GetRoomsOfFloor-{getRoomsRequestDto.FloorId}-AndGetRoomsOfRoomType-{getRoomsRequestDto.RoomTypeId}-andHotel-{hotelId}",
                 async () => await GetRoomsFromDb(getRoomsRequestDto.FloorId, getRoomsRequestDto.RoomTypeId, hotelId));
             return rooms;
@@ -96,9 +91,7 @@ namespace Hotelos.Application.Rooms
                 throw new UnprocessableEntityException(erorrs);
             }
 
-            var hotelIdClaim = CurrentUser.FindClaim("hotelId");
-            var hotelId = int.Parse(hotelIdClaim.Value);
-            Guid userId = (Guid)CurrentUser.Id;
+            (var hotelId, var userId) = GetHotelIdAndUserId();
 
             var room = await _roomRepository.FirstOrDefaultAsync(x => x.Id == updateRoomDto.Id && x.HotelId == hotelId);
             if (room is null)

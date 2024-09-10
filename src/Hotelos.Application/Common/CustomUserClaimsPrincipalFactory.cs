@@ -26,15 +26,15 @@ namespace Hotelos.Application.Custom
         {
             var identity = await base.GenerateClaimsAsync(user);
 
-            //if (await UserManager.IsInRoleAsync(user, "Hotel"))
-            //{
-            //    var hotel = await _repository.FirstOrDefaultAsync(x => x.UserId == user.Id);
+            if (await UserManager.IsInRoleAsync(user, "HotelAdmin"))
+            {
+                var hotel = await _repository.FirstOrDefaultAsync(x => x.UserId == user.Id);
 
-            //    if (hotel != null)
-            //    {
-            //        identity.AddClaim(new Claim("hotelId", hotel.Id.ToString()));
-            //    }
-            //}
+                if (hotel != null)
+                {
+                    identity.AddClaim(new Claim("hotelId", hotel.Id.ToString()));
+                }
+            }
 
             return identity;
         }

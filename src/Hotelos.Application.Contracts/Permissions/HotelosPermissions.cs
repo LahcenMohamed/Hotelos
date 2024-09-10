@@ -24,6 +24,18 @@ public static class HotelosPermissions
     public const string UpdateRoom = RoomGroupName + "Update";
     public const string DeleteRoom = RoomGroupName + "Delete";
     public const string GetRooms = RoomGroupName + "Get";
+
+    public const string ClientGroupName = GroupName + ".Client";
+    public const string CreateClient = ClientGroupName + "Create";
+    public const string UpdateClient = ClientGroupName + "Update";
+    public const string DeleteClient = ClientGroupName + "Delete";
+    public const string GetClients = ClientGroupName + "Get";
+
+    public const string ServiceGroupName = GroupName + ".Service";
+    public const string CreateService = ServiceGroupName + "Create";
+    public const string UpdateService = ServiceGroupName + "Update";
+    public const string DeleteService = ServiceGroupName + "Delete";
+    public const string GetServices = ServiceGroupName + "Get";
     //Add your own permission names. Example:
     //public const string MyPermission1 = GroupName + ".MyPermission1";
 }

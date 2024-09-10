@@ -1,0 +1,24 @@
+﻿using FluentValidation;
+using Hotelos.Application.Contracts.Clients.Dtos;
+
+namespace Hotelos.Application.Clients.Validators
+{
+    public sealed class UpdateClientDtoValidator : AbstractValidator<UpdateClientDto>
+    {
+        public UpdateClientDtoValidator()
+        {
+            RuleFor(x => x.FirstName).NotNull()
+                                     .NotEmpty()
+                                     .MaximumLength(100);
+
+            RuleFor(x => x.MiddleName).MaximumLength(100);
+
+            RuleFor(x => x.LastName).NotNull()
+                                     .NotEmpty()
+                                     .MaximumLength(100);
+
+            RuleFor(x => x.Email).EmailAddress().MaximumLength(150);
+            RuleFor(x => x.PhoneNumber).MaximumLength(150);
+        }
+    }
+}
