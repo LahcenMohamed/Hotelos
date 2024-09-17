@@ -1,7 +1,7 @@
 ﻿using Hotelos.Application.Bases;
 using Hotelos.Application.Contracts.Rooms;
 using Hotelos.Application.Contracts.Rooms.Dtos;
-using Hotelos.Application.Exceptions;
+using Hotelos.Application.Reservations.Mappers;
 using Hotelos.Application.Rooms.Mappers;
 using Hotelos.Application.Rooms.Validators;
 using Hotelos.Domain.Rooms;
@@ -9,11 +9,11 @@ using Hotelos.Domain.Rooms.Entities.Floors;
 using Hotelos.Domain.Rooms.Entities.RoomsTypes;
 using Hotelos.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Caching;
-using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
 namespace Hotelos.Application.Rooms
@@ -31,12 +31,7 @@ namespace Hotelos.Application.Rooms
         [Authorize(HotelosPermissions.CreateRoom)]
         public async Task<GetRoomDto> Create(CreateRoomDto createRoomDto)
         {
-            var validateResult = await new CreateRoomDtoValidator(_roomTypeRepository, _floorRepository).ValidateAsync(createRoomDto);
-            if (!validateResult.IsValid)
-            {
-                var erorrs = ValidationErorrResult(validateResult);
-                throw new UnprocessableEntityException(erorrs);
-            }
+            await ValidationErorrResult(new CreateRoomDtoValidator(_roomTypeRepository, _floorRepository), createRoomDto, true);
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
             var room = Room.Create(createRoomDto.Number,
@@ -52,7 +47,11 @@ namespace Hotelos.Application.Rooms
             await _roomRepository.InsertAsync(room, true);
             var mappers = new GetSingleRoomDtoMapper();
             var roomMapping = mappers.ToDto(room);
-            await RefershCach(room.FloorId, room.RoomTypeId, hotelId);
+            await RefreshCache(room, (list, dto) =>
+            {
+                list.RemoveAll(r => r.Id == dto.Id);
+                return list;
+            });
             return roomMapping;
         }
 
@@ -61,14 +60,14 @@ namespace Hotelos.Application.Rooms
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var room = await _roomRepository.FirstOrDefaultAsync(x => x.Id == roomId && x.HotelId == hotelId);
-            if (room is null)
-            {
-                throw new EntityNotFoundException();
-            }
+            var room = await FindAggragateRootAsync(_roomRepository, roomId, hotelId, "Room");
 
             await _roomRepository.DeleteAsync(room, true);
-            await RefershCach(room.FloorId, room.RoomTypeId, hotelId);
+            await RefreshCache(room, (list, dto) =>
+            {
+                list.RemoveAll(r => r.Id == dto.Id);
+                return list;
+            });
         }
 
         [Authorize(HotelosPermissions.GetRooms)]
@@ -84,20 +83,11 @@ namespace Hotelos.Application.Rooms
         [Authorize(HotelosPermissions.UpdateRoom)]
         public async Task<GetRoomDto> Update(UpdateRoomDto updateRoomDto)
         {
-            var validateResult = await new UpdateRoomDtoValidator(_roomTypeRepository, _floorRepository).ValidateAsync(updateRoomDto);
-            if (!validateResult.IsValid)
-            {
-                var erorrs = ValidationErorrResult(validateResult);
-                throw new UnprocessableEntityException(erorrs);
-            }
+            await ValidationErorrResult(new UpdateRoomDtoValidator(_roomTypeRepository, _floorRepository), updateRoomDto, true);
 
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var room = await _roomRepository.FirstOrDefaultAsync(x => x.Id == updateRoomDto.Id && x.HotelId == hotelId);
-            if (room is null)
-            {
-                throw new EntityNotFoundException();
-            }
+            var room = await FindAggragateRootAsync(_roomRepository, updateRoomDto.Id, hotelId, "Room");
 
             room.Update(updateRoomDto.Number,
                         updateRoomDto.CountOfBeds,
@@ -112,7 +102,13 @@ namespace Hotelos.Application.Rooms
             await _roomRepository.UpdateAsync(room, true);
             var mappers = new GetSingleRoomDtoMapper();
             var roomMapping = mappers.ToDto(room);
-            await RefershCach(room.FloorId, room.RoomTypeId, hotelId);
+            await RefreshCache(room, (list, dto) =>
+            {
+                var index = list.FindIndex(r => r.Id == dto.Id);
+                if (index != -1)
+                    list[index] = dto;
+                return list;
+            });
             return roomMapping;
         }
 
@@ -124,16 +120,30 @@ namespace Hotelos.Application.Rooms
             (x.FloorId == floorId || floorId == 0))).ToDto().ToList();
         }
 
-        private async Task RefershCach(int floorId, int roomTypeId, int hotelId)
+        private async Task RefreshCache(Room room, Func<List<GetRoomDto>, GetRoomDto, List<GetRoomDto>> action)
         {
-            await _roomDtoListdistributedCache.RemoveManyAsync([$"GetRoomsOfFloor-{0}-AndGetRoomsOfRoomType-{0}-andHotel-{hotelId}",
-                                                                 $"GetRoomsOfFloor-{floorId}-AndGetRoomsOfRoomType-{roomTypeId}-andHotel-{hotelId}"]);
+            int hotelId = room.HotelId;
+            var mapper = new GetSingleRoomDtoMapper();
+            var roomDto = mapper.ToDto(room);
+            var cacheKeys = new[]
+            {
+                (floorId: 0, roomTypeId: 0),
+                (floorId: room.FloorId, roomTypeId: 0),
+                (floorId: 0, roomTypeId: room.RoomTypeId),
+                (floorId: room.FloorId, roomTypeId: room.RoomTypeId)
+            };
 
-            await _roomDtoListdistributedCache.GetOrAddAsync($"GetRoomsOfFloor-{0}-AndGetRoomsOfRoomType-{0}-andHotel-{hotelId}",
-                                                            async () => await GetRoomsFromDb(0, 0, hotelId));
+            foreach (var (floorId, roomTypeId) in cacheKeys)
+            {
+                var cacheKey = $"GetRoomsOfFloor-{floorId}-AndGetRoomsOfRoomType-{roomTypeId}-andHotel-{hotelId}";
+                var rooms = await _roomDtoListdistributedCache.GetAsync(cacheKey);
 
-            await _roomDtoListdistributedCache.GetOrAddAsync($"GetRoomsOfFloor-{floorId}-AndGetRoomsOfRoomType-{roomTypeId}-andHotel-{hotelId}",
-                                                            async () => await GetRoomsFromDb(floorId, roomTypeId, hotelId));
+                if (rooms != null)
+                {
+                    rooms = action(rooms, roomDto);
+                    await _roomDtoListdistributedCache.SetAsync(cacheKey, rooms);
+                }
+            }
         }
     }
 }

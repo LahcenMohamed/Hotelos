@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Caching;
-using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
 namespace Hotelos.Application.Floors
@@ -25,12 +24,7 @@ namespace Hotelos.Application.Floors
         [Authorize(HotelosPermissions.CreateFloor)]
         public async Task<GetFloorDto> Create(CreateFloorDto createFloorDtos)
         {
-            var validateResult = new CreateFloorValidator().Validate(createFloorDtos);
-            if (!validateResult.IsValid)
-            {
-                var message = ValidationErorrResult(validateResult);
-                throw new ValidationException(message);
-            }
+            await ValidationErorrResult(new CreateFloorValidator(), createFloorDtos);
 
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
@@ -48,21 +42,11 @@ namespace Hotelos.Application.Floors
         [Authorize(HotelosPermissions.UpdateFloor)]
         public async Task<GetFloorDto> Update(UpdateFloorDto updateFloorDto)
         {
-            var validateResult = new UpdateFloorDtoValidator().Validate(updateFloorDto);
-            if (!validateResult.IsValid)
-            {
-                var message = ValidationErorrResult(validateResult);
-                throw new ValidationException(message);
-            }
+            await ValidationErorrResult(new UpdateFloorDtoValidator(), updateFloorDto);
 
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var floor = await _floorRepository.FirstOrDefaultAsync(x => x.Id == updateFloorDto.Id && x.HotelId == hotelId);
-
-            if (floor is null)
-            {
-                throw new EntityNotFoundException();
-            }
+            var floor = await FindEntityAsync(_floorRepository, updateFloorDto.Id, hotelId, "Floor");
 
             floor.Update(updateFloorDto.Name, userId);
 
@@ -79,11 +63,7 @@ namespace Hotelos.Application.Floors
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var floor = await _floorRepository.FirstOrDefaultAsync(x => x.Id == id && x.HotelId == hotelId);
-            if (floor is null)
-            {
-                throw new EntityNotFoundException();
-            }
+            var floor = await FindEntityAsync(_floorRepository, id, hotelId, "Floor");
 
             await _floorRepository.DeleteAsync(floor, true);
             return "Success";

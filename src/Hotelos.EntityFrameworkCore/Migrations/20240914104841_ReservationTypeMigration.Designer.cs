@@ -4,6 +4,7 @@ using Hotelos.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Hotelos.Migrations
 {
     [DbContext(typeof(HotelosDbContext))]
-    partial class HotelosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240914104841_ReservationTypeMigration")]
+    partial class ReservationTypeMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,7 +217,7 @@ namespace Hotelos.Migrations
                     b.Property<DateTime>("EntryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ExitDate")
+                    b.Property<DateTime>("ExitTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ExtraProperties")

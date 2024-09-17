@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Hotelos.Application.Bases;
+﻿using Hotelos.Application.Bases;
 using Hotelos.Application.Contracts.Hotels;
 using Hotelos.Application.Contracts.Hotels.Dtos;
 using Hotelos.Application.Hotels.Mappers;
@@ -20,12 +19,7 @@ namespace Hotelos.Application.Hotels
         [Authorize]
         public async Task<GetSingleHotelDto> CreateAsync(CreateHotelDto command)
         {
-            var validateResult = new CreateHotelValidator().Validate(command);
-            if (!validateResult.IsValid)
-            {
-                var message = ValidationErorrResult(validateResult);
-                throw new ValidationException(message);
-            }
+            await ValidationErorrResult(new CreateHotelValidator(), command);
             var hotel = Hotel.Create(command.Name,
                                      command.State,
                                      command.City,

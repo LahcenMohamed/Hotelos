@@ -3,7 +3,6 @@ using Hotelos.Application.Clients.Mappers;
 using Hotelos.Application.Clients.Validators;
 using Hotelos.Application.Contracts.Clients;
 using Hotelos.Application.Contracts.Clients.Dtos;
-using Hotelos.Application.Exceptions;
 using Hotelos.Domain.Clients;
 using Hotelos.Permissions;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
-using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
 namespace Hotelos.Application.Clients
@@ -26,12 +24,7 @@ namespace Hotelos.Application.Clients
         [Authorize(HotelosPermissions.CreateClient)]
         public async Task<GetClientDto> Create(CreateClientDto createClientDto)
         {
-            var validateResult = new CreateClientValidator().Validate(createClientDto);
-            if (!validateResult.IsValid)
-            {
-                var erorrs = ValidationErorrResult(validateResult);
-                throw new UnprocessableEntityException(erorrs);
-            }
+            await ValidationErorrResult(new CreateClientValidator(), createClientDto);
 
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
@@ -62,20 +55,11 @@ namespace Hotelos.Application.Clients
         [Authorize(HotelosPermissions.UpdateClient)]
         public async Task<GetClientDto> Update(UpdateClientDto updateClientDto)
         {
-            var validateResult = new UpdateClientDtoValidator().Validate(updateClientDto);
-            if (!validateResult.IsValid)
-            {
-                var erorrs = ValidationErorrResult(validateResult);
-                throw new UnprocessableEntityException(erorrs);
-            }
+            await ValidationErorrResult(new UpdateClientDtoValidator(), updateClientDto);
 
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var client = await _clientRepository.FirstOrDefaultAsync(x => x.HotelId == hotelId && x.Id == updateClientDto.Id);
-            if (client is null)
-            {
-                throw new EntityNotFoundException();
-            }
+            var client = await FindAggragateRootAsync(_clientRepository, updateClientDto.Id, hotelId, "Client");
 
             client.Update(updateClientDto.FirstName,
                           updateClientDto.MiddleName,
@@ -96,11 +80,7 @@ namespace Hotelos.Application.Clients
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var client = await _clientRepository.FirstOrDefaultAsync(x => x.HotelId == hotelId && x.Id == id);
-            if (client is null)
-            {
-                throw new EntityNotFoundException();
-            }
+            var client = await FindAggragateRootAsync(_clientRepository, id, hotelId, "Client");
 
             await _clientRepository.DeleteAsync(client, true);
         }

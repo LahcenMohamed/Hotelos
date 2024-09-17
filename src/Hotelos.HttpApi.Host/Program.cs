@@ -37,6 +37,7 @@ public class Program
             await builder.AddApplicationAsync<HotelosHttpApiHostModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
+            //app.UseAbpHangfireDashboard();
             await app.RunAsync();
             return 0;
         }

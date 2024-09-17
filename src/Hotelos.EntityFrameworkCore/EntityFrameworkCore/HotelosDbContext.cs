@@ -1,5 +1,7 @@
 using Hotelos.Domain.Clients;
 using Hotelos.Domain.Hotels;
+using Hotelos.Domain.Reservations;
+using Hotelos.Domain.Reservations.ReservationServices;
 using Hotelos.Domain.Rooms;
 using Hotelos.Domain.Rooms.Entities.Floors;
 using Hotelos.Domain.Rooms.Entities.RoomsTypes;
@@ -67,6 +69,8 @@ public class HotelosDbContext :
     public DbSet<Room> Rooms { get; set; }
     public DbSet<Client> Clients { get; set; }
     public DbSet<Service> Services { get; set; }
+    public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<ReservationService> ReservationServices { get; set; }
 
     #endregion
 

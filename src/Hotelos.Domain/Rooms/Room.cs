@@ -1,9 +1,9 @@
-﻿using System;
-using Volo.Abp.Domain.Entities.Auditing;
+﻿using Hotelos.Domain.Common.Entity;
+using System;
 
 namespace Hotelos.Domain.Rooms
 {
-    public sealed class Room : FullAuditedAggregateRoot<int>
+    public sealed class Room : HotelAggragateRootBase
     {
         public int Number { get; private set; }
         public string? Name { get; private set; }
@@ -13,7 +13,6 @@ namespace Hotelos.Domain.Rooms
         public string? Description { get; private set; }
         public int FloorId { get; private set; }
         public int RoomTypeId { get; private set; }
-        public int HotelId { get; private set; }
 
         private Room()
         {
@@ -68,7 +67,13 @@ namespace Hotelos.Domain.Rooms
             LastModifierId = userId;
         }
 
-        public void UpdateVacant(bool isVacant, Guid userId)
+        public void UpdateVacant(bool isVacant)
+        {
+            IsVacant = isVacant;
+            LastModificationTime = DateTime.Now;
+        }
+
+        public void UpdateVacantWithUserId(bool isVacant, Guid userId)
         {
             IsVacant = isVacant;
             LastModificationTime = DateTime.Now;

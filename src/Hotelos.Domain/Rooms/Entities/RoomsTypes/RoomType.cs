@@ -1,12 +1,11 @@
-﻿using System;
-using Volo.Abp.Domain.Entities.Auditing;
+﻿using Hotelos.Domain.Common.Entity;
+using System;
 
 namespace Hotelos.Domain.Rooms.Entities.RoomsTypes
 {
-    public sealed class RoomType : FullAuditedEntity<int>
+    public sealed class RoomType : HotelEntityBase
     {
         public string Name { get; private set; }
-        public int HotelId { get; private set; }
 
         private RoomType()
         {

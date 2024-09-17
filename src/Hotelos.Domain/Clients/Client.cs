@@ -1,16 +1,15 @@
-﻿using Hotelos.Domain.Common.ValueObjects;
+﻿using Hotelos.Domain.Common.Entity;
+using Hotelos.Domain.Common.ValueObjects;
 using System;
-using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Hotelos.Domain.Clients
 {
-    public sealed class Client : FullAuditedAggregateRoot<int>
+    public sealed class Client : HotelAggragateRootBase
     {
         public FullName FullName { get; private set; }
         public string? Email { get; private set; }
         public string? PhoneNumber { get; private set; }
         public string? Description { get; private set; }
-        public int HotelId { get; private set; }
         private Client()
         {
         }

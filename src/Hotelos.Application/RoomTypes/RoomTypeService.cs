@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Caching;
-using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
 namespace Hotelos.Application.RoomTypes
@@ -27,12 +26,7 @@ namespace Hotelos.Application.RoomTypes
         [Authorize(HotelosPermissions.CreateRoomType)]
         public async Task<GetRoomTypeDto> Create(CreateRoomTypeDto createRoomTypeDto)
         {
-            var validateResult = new CreateRoomTypeDtoValidator().Validate(createRoomTypeDto);
-            if (!validateResult.IsValid)
-            {
-                var message = ValidationErorrResult(validateResult);
-                throw new ValidationException(message);
-            }
+            await ValidationErorrResult(new CreateRoomTypeDtoValidator(), createRoomTypeDto);
 
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
@@ -52,12 +46,7 @@ namespace Hotelos.Application.RoomTypes
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var roomType = await _roomTypeRepository.FirstOrDefaultAsync(x => x.Id == id && x.HotelId == hotelId);
-
-            if (roomType is null)
-            {
-                throw new EntityNotFoundException();
-            }
+            var roomType = await FindEntityAsync(_roomTypeRepository, id, hotelId, "RoomType");
             await _roomTypeRepository.DeleteAsync(roomType, true);
             return "Success";
         }
@@ -75,21 +64,11 @@ namespace Hotelos.Application.RoomTypes
         [Authorize(HotelosPermissions.UpdateRoomType)]
         public async Task<GetRoomTypeDto> Update(UpdateRoomTypeDto updateRoomType)
         {
-            var validateResult = new UpdateRoomTypeDtoValidator().Validate(updateRoomType);
-
-            if (!validateResult.IsValid)
-            {
-                var message = ValidationErorrResult(validateResult);
-                throw new ValidationException(message);
-            }
+            await ValidationErorrResult(new UpdateRoomTypeDtoValidator(), updateRoomType);
 
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var roomType = await _roomTypeRepository.FirstOrDefaultAsync(x => x.Id == updateRoomType.Id && x.HotelId == hotelId);
-            if (roomType is null)
-            {
-                throw new EntityNotFoundException();
-            }
+            var roomType = await FindEntityAsync(_roomTypeRepository, updateRoomType.Id, hotelId, "RoomType");
 
             roomType.Update(updateRoomType.Name, userId);
 

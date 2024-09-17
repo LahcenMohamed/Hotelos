@@ -1,14 +1,13 @@
-﻿using System;
-using Volo.Abp.Domain.Entities.Auditing;
+﻿using Hotelos.Domain.Common.Entity;
+using System;
 
 namespace Hotelos.Domain.Services
 {
-    public sealed class Service : FullAuditedAggregateRoot<int>
+    public sealed class Service : HotelAggragateRootBase
     {
         public string Name { get; private set; }
         public decimal Price { get; private set; }
         public string? Description { get; private set; }
-        public int HotelId { get; private set; }
 
         private Service()
         {
