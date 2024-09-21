@@ -47,11 +47,11 @@ namespace Hotelos.Application.Rooms
             await _roomRepository.InsertAsync(room, true);
             var mappers = new GetSingleRoomDtoMapper();
             var roomMapping = mappers.ToDto(room);
-            await RefreshCache(room, (list, dto) =>
-            {
-                list.RemoveAll(r => r.Id == dto.Id);
-                return list;
-            });
+            //await RefreshCache(room, (list, dto) =>
+            //{
+            //    list.RemoveAll(r => r.Id == dto.Id);
+            //    return list;
+            //});
             return roomMapping;
         }
 
@@ -63,11 +63,11 @@ namespace Hotelos.Application.Rooms
             var room = await FindAggragateRootAsync(_roomRepository, roomId, hotelId, "Room");
 
             await _roomRepository.DeleteAsync(room, true);
-            await RefreshCache(room, (list, dto) =>
-            {
-                list.RemoveAll(r => r.Id == dto.Id);
-                return list;
-            });
+            //await RefreshCache(room, (list, dto) =>
+            //{
+            //    list.RemoveAll(r => r.Id == dto.Id);
+            //    return list;
+            //});
         }
 
         [Authorize(HotelosPermissions.GetRooms)]
@@ -75,9 +75,10 @@ namespace Hotelos.Application.Rooms
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var rooms = await _roomDtoListdistributedCache.GetOrAddAsync($"GetRoomsOfFloor-{getRoomsRequestDto.FloorId}-AndGetRoomsOfRoomType-{getRoomsRequestDto.RoomTypeId}-andHotel-{hotelId}",
-                async () => await GetRoomsFromDb(getRoomsRequestDto.FloorId, getRoomsRequestDto.RoomTypeId, hotelId));
-            return rooms;
+            //var rooms = await _roomDtoListdistributedCache.GetOrAddAsync($"GetRoomsOfFloor-{getRoomsRequestDto.FloorId}-AndGetRoomsOfRoomType-{getRoomsRequestDto.RoomTypeId}-andHotel-{hotelId}",
+            //    async () => await GetRoomsFromDb(getRoomsRequestDto.FloorId, getRoomsRequestDto.RoomTypeId, hotelId));
+            //return rooms;
+            return await GetRoomsFromDb(getRoomsRequestDto.FloorId, getRoomsRequestDto.RoomTypeId, hotelId);
         }
 
         [Authorize(HotelosPermissions.UpdateRoom)]
@@ -102,13 +103,13 @@ namespace Hotelos.Application.Rooms
             await _roomRepository.UpdateAsync(room, true);
             var mappers = new GetSingleRoomDtoMapper();
             var roomMapping = mappers.ToDto(room);
-            await RefreshCache(room, (list, dto) =>
-            {
-                var index = list.FindIndex(r => r.Id == dto.Id);
-                if (index != -1)
-                    list[index] = dto;
-                return list;
-            });
+            //await RefreshCache(room, (list, dto) =>
+            //{
+            //    var index = list.FindIndex(r => r.Id == dto.Id);
+            //    if (index != -1)
+            //        list[index] = dto;
+            //    return list;
+            //});
             return roomMapping;
         }
 

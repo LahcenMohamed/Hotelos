@@ -83,7 +83,7 @@ namespace Hotelos.Application.Reservations
             var mapper = new GetReservationDtoMapper();
             var reservationDto = mapper.ToDto(reservation);
 
-            await RefreshCache(reservation, (list, dto) => { list.Add(dto); return list; });
+            //await RefreshCache(reservation, (list, dto) => { list.Add(dto); return list; });
 
             return reservationDto;
         }
@@ -104,9 +104,10 @@ namespace Hotelos.Application.Reservations
         public async Task<List<GetReservationDto>> GetAll(GetReservationRequestDto getRoomsRequestDto)
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
-            var reservations = await _reservationsDistributedCache.GetOrAddAsync($"GetReservationOfHotel-{hotelId}-AndCLient-{getRoomsRequestDto.ClientId}-AndRoom-{getRoomsRequestDto.RoomId}",
-                async () => await GetReservationsFromDb(getRoomsRequestDto.ClientId, getRoomsRequestDto.RoomId, hotelId));
-            return reservations;
+            //var reservations = await _reservationsDistributedCache.GetOrAddAsync($"GetReservationOfHotel-{hotelId}-AndCLient-{getRoomsRequestDto.ClientId}-AndRoom-{getRoomsRequestDto.RoomId}",
+            //    async () => await GetReservationsFromDb(getRoomsRequestDto.ClientId, getRoomsRequestDto.RoomId, hotelId));
+            //return reservations;
+            return await GetReservationsFromDb(getRoomsRequestDto.ClientId, getRoomsRequestDto.RoomId, hotelId);
         }
 
         public async Task PatchType(int id, ReservationType reservationType)
@@ -143,13 +144,13 @@ namespace Hotelos.Application.Reservations
                                userId);
             reservation.EditRoomAndClient(room, client);
             await _reservationRepository.UpdateAsync(reservation, true);
-            await RefreshCache(reservation, (list, dto) =>
-            {
-                var index = list.FindIndex(r => r.Id == dto.Id);
-                if (index != -1)
-                    list[index] = dto;
-                return list;
-            });
+            //await RefreshCache(reservation, (list, dto) =>
+            //{
+            //    var index = list.FindIndex(r => r.Id == dto.Id);
+            //    if (index != -1)
+            //        list[index] = dto;
+            //    return list;
+            //});
             var mapper = new GetReservationDtoMapper();
             return mapper.ToDto(reservation);
         }
@@ -164,13 +165,13 @@ namespace Hotelos.Application.Reservations
             reservation.EditEntryDate(updateEntryDateReservationDto.EntryDate, userId);
 
             await _reservationRepository.UpdateAsync(reservation, true);
-            await RefreshCache(reservation, (list, dto) =>
-            {
-                var index = list.FindIndex(r => r.Id == dto.Id);
-                if (index != -1)
-                    list[index].EntryDate = dto.EntryDate;
-                return list;
-            });
+            //await RefreshCache(reservation, (list, dto) =>
+            //{
+            //    var index = list.FindIndex(r => r.Id == dto.Id);
+            //    if (index != -1)
+            //        list[index].EntryDate = dto.EntryDate;
+            //    return list;
+            //});
 
             if (reservation.Type == ReservationType.Confirmed && reservation.EntryDate > DateTime.Now)
             {
@@ -189,13 +190,13 @@ namespace Hotelos.Application.Reservations
             var client = await FindAggragateRootAsync(_clientRepository, reservation.ClientId, hotelId, "Client");
             reservation.EditRoomAndClient(room, client);
             await _reservationRepository.UpdateAsync(reservation, true);
-            await RefreshCache(reservation, (list, dto) =>
-            {
-                var index = list.FindIndex(r => r.Id == dto.Id);
-                if (index != -1)
-                    list[index].ExitDate = dto.ExitDate;
-                return list;
-            });
+            //await RefreshCache(reservation, (list, dto) =>
+            //{
+            //    var index = list.FindIndex(r => r.Id == dto.Id);
+            //    if (index != -1)
+            //        list[index].ExitDate = dto.ExitDate;
+            //    return list;
+            //});
 
             if (reservation.Type == ReservationType.Confirmed && reservation.ExitDate > DateTime.Now)
             {

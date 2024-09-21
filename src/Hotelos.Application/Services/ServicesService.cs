@@ -31,7 +31,7 @@ namespace Hotelos.Application.Services
                                          createServiceDto.Description);
 
             await _serviceRepository.InsertAsync(service, true);
-            await Refersh();
+            //await Refersh();
             var mapper = new GetServiceDtoMapper();
             return mapper.ToDto(service);
         }
@@ -42,15 +42,16 @@ namespace Hotelos.Application.Services
             var service = await FindAggragateRootAsync(_serviceRepository, id, hotelId, "Service");
 
             await _serviceRepository.DeleteAsync(service, true);
-            await Refersh();
+            //await Refersh();
         }
 
         public async Task<List<GetServiceDto>> GetAll()
         {
-            (var hotelId, var userId) = GetHotelIdAndUserId();
-            var service = await _serviceDistributedCache.GetOrAddAsync($"GetAllServiceByHotelId-{hotelId}",
-                                                         async () => await GetAllFromDb());
-            return service;
+            //(var hotelId, var userId) = GetHotelIdAndUserId();
+            //var service = await _serviceDistributedCache.GetOrAddAsync($"GetAllServiceByHotelId-{hotelId}",
+            //                                             async () => await GetAllFromDb());
+            //return service;
+            return await GetAllFromDb();
         }
 
         public async Task<GetServiceDto> Update(UpdateServiceDto updateServiceDto)
@@ -64,7 +65,7 @@ namespace Hotelos.Application.Services
                            updateServiceDto.Description,
                            userId);
             await _serviceRepository.UpdateAsync(service, true);
-            await Refersh();
+            //await Refersh();
             var mapper = new GetServiceDtoMapper();
             return mapper.ToDto(service);
         }

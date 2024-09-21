@@ -54,11 +54,12 @@ namespace Hotelos.Application.RoomTypes
         [Authorize(HotelosPermissions.GetAllRoomType)]
         public async Task<List<GetRoomTypeDto>> GetAll()
         {
-            (var hotelId, var userId) = GetHotelIdAndUserId();
+            //(var hotelId, var userId) = GetHotelIdAndUserId();
 
-            var cachingResult = await _distributedCache.GetOrAddAsync($"GetAllRoomTypesOfUser_{hotelId}",
-                                                             async () => await GetAllFromDb());
-            return cachingResult;
+            //var cachingResult = await _distributedCache.GetOrAddAsync($"GetAllRoomTypesOfUser_{hotelId}",
+            //                                                 async () => await GetAllFromDb());
+            //return cachingResult;
+            return await GetAllFromDb();
         }
 
         [Authorize(HotelosPermissions.UpdateRoomType)]

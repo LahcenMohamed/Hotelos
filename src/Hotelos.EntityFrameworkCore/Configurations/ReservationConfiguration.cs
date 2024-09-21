@@ -1,4 +1,5 @@
-﻿using Hotelos.Domain.Reservations;
+﻿using Hotelos.Domain.Hotels;
+using Hotelos.Domain.Reservations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +16,10 @@ namespace Hotelos.EntityFrameworkCore.Configurations
             builder.HasOne(x => x.Room)
                    .WithMany()
                    .HasForeignKey(x => x.RoomId);
+
+            builder.HasOne<Hotel>()
+                   .WithMany()
+                   .HasForeignKey(x => x.HotelId);
         }
     }
 }

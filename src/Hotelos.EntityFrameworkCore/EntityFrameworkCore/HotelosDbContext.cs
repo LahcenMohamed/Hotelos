@@ -1,4 +1,7 @@
 using Hotelos.Domain.Clients;
+using Hotelos.Domain.Employees;
+using Hotelos.Domain.Employees.Entities.JobTimes;
+using Hotelos.Domain.Employees.Entities.JobTypes;
 using Hotelos.Domain.Hotels;
 using Hotelos.Domain.Reservations;
 using Hotelos.Domain.Reservations.ReservationServices;
@@ -71,6 +74,9 @@ public class HotelosDbContext :
     public DbSet<Service> Services { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<ReservationService> ReservationServices { get; set; }
+    public DbSet<JobType> JobTypes { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<JobTime> JobTimes { get; set; }
 
     #endregion
 

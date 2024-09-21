@@ -72,10 +72,11 @@ namespace Hotelos.Application.Floors
         [Authorize(HotelosPermissions.GetAllFloors)]
         public async Task<List<GetFloorDto>> GetAll()
         {
-            (var hotelId, var userId) = GetHotelIdAndUserId();
-            var cachingResult = await _floorDistributedCache.GetOrAddAsync($"GetAllFloorsOfUser_{hotelId}",
-                                                            async () => await GetAllFromDb());
-            return cachingResult;
+            //(var hotelId, var userId) = GetHotelIdAndUserId();
+            //var cachingResult = await _floorDistributedCache.GetOrAddAsync($"GetAllFloorsOfUser_{hotelId}",
+            //                                                async () => await GetAllFromDb());
+            //return cachingResult;
+            return await GetAllFromDb();
         }
 
         private async Task<List<GetFloorDto>> GetAllFromDb()

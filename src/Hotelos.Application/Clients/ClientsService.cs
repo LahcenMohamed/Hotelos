@@ -46,10 +46,11 @@ namespace Hotelos.Application.Clients
         [Authorize(HotelosPermissions.GetClients)]
         public async Task<PagedResultDto<GetClientDto>> GetAll(PagedResultRequestDto requestDto)
         {
-            (var hotelId, var userId) = GetHotelIdAndUserId();
-            var lst = await _distributedCache.GetOrAddAsync($"ClientsOfHotel-{hotelId}-skip_{requestDto.SkipCount}-take_{requestDto.MaxResultCount}",
-                async () => await GetClientsFromDb(requestDto));
-            return new PagedResultDto<GetClientDto>(await ClientsCount(), lst);
+            //(var hotelId, var userId) = GetHotelIdAndUserId();
+            //var lst = await _distributedCache.GetOrAddAsync($"ClientsOfHotel-{hotelId}-skip_{requestDto.SkipCount}-take_{requestDto.MaxResultCount}",
+            //    async () => await GetClientsFromDb(requestDto));
+            //return new PagedResultDto<GetClientDto>(await ClientsCount(), lst);
+            return new PagedResultDto<GetClientDto>(await ClientsCount(), await GetClientsFromDb(requestDto));
         }
 
         [Authorize(HotelosPermissions.UpdateClient)]

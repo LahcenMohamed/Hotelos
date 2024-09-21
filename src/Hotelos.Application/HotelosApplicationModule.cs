@@ -3,12 +3,10 @@ using Hotelos.Application.Custom;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.BackgroundJobs.Hangfire;
-using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -45,11 +43,11 @@ public class HotelosApplicationModule : AbpModule
 
         context.Services.AddTransient<IUserClaimsPrincipalFactory<Volo.Abp.Identity.IdentityUser>, CustomUserClaimsPrincipalFactory>();
 
-        Configure<AbpDistributedCacheOptions>(options =>
-        {
-            options.KeyPrefix = "Hotelos_";
-            options.GlobalCacheEntryOptions.AbsoluteExpiration = DateTimeOffset.Now.AddHours(1);
-        });
+        //Configure<AbpDistributedCacheOptions>(options =>
+        //{
+        //    options.KeyPrefix = "Hotelos_";
+        //    options.GlobalCacheEntryOptions.AbsoluteExpiration = DateTimeOffset.Now.AddHours(1);
+        //});
 
         ConfigureHangfire(context, configuration);
         Configure<AbpBackgroundJobWorkerOptions>(options =>
