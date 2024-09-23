@@ -1,4 +1,6 @@
-﻿namespace Hotelos.Application.Contracts.Employees.Dtos
+﻿using System;
+
+namespace Hotelos.Application.Contracts.Employees.Dtos
 {
     public sealed record CreateEmployeeDto(string FirstName,
                                            string? MiddleName,
@@ -8,5 +10,6 @@
                                            string? Address,
                                            decimal Salary,
                                            int JobTypeId,
+                                           Guid? UserId,
                                            string? Description);
 }

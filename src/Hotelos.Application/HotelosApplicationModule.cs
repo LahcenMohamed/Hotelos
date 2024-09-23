@@ -42,6 +42,7 @@ public class HotelosApplicationModule : AbpModule
         });
 
         context.Services.AddTransient<IUserClaimsPrincipalFactory<Volo.Abp.Identity.IdentityUser>, CustomUserClaimsPrincipalFactory>();
+        context.Services.AddScoped<SignInManager<Volo.Abp.Identity.IdentityUser>, CustomSignInManager>();
 
         //Configure<AbpDistributedCacheOptions>(options =>
         //{

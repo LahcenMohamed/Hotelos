@@ -16,6 +16,7 @@ namespace Hotelos.Domain.Employees
         public decimal Salary { get; private set; }
         public string? Description { get; private set; }
         public int JobTypeId { get; private set; }
+        public Guid? UserId { get; private set; }
         public JobType JobType { get; private set; }
         public List<JobTime> JobTimes { get; private set; }
 
@@ -32,6 +33,7 @@ namespace Hotelos.Domain.Employees
                                       decimal salary,
                                       int hotelId,
                                       Guid userId,
+                                      Guid? EmployeeUserId,
                                       int jobTypeId,
                                       string? description)
         {
@@ -44,6 +46,7 @@ namespace Hotelos.Domain.Employees
                 Salary = salary,
                 Description = description,
                 JobTypeId = jobTypeId,
+                UserId = EmployeeUserId,
                 HotelId = hotelId,
                 CreatorId = userId,
                 CreationTime = DateTime.Now

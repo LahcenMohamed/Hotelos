@@ -5,6 +5,8 @@ using Hotelos.Application.JobTypes.Mappers;
 using Hotelos.Application.JobTypes.Validators;
 using Hotelos.Application.Reservations.Mappers;
 using Hotelos.Domain.Employees.Entities.JobTypes;
+using Hotelos.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,7 @@ namespace Hotelos.Application.JobTypes
         private readonly IRepository<JobType> _jobTypeRepository = jobTypeRepository;
         private readonly IDistributedCache<List<GetJobTypeDto>> _jobTypesDistributedCache = jobTypesDistributedCache;
 
+        [Authorize(HotelosPermissions.CreateJobType)]
         public async Task<GetJobTypeDto> Create(CreateJobTypeDto createJobTypeDto)
         {
             await ValidationErorrResult(new CreateJobTypeDtoValidator(), createJobTypeDto);
@@ -34,6 +37,7 @@ namespace Hotelos.Application.JobTypes
             return jobTypeMapping;
         }
 
+        [Authorize(HotelosPermissions.DeleteJobType)]
         public async Task Delete(int id)
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
@@ -46,6 +50,7 @@ namespace Hotelos.Application.JobTypes
             });
         }
 
+        [Authorize(HotelosPermissions.GetJobTypes)]
         public async Task<List<GetJobTypeDto>> GetAll()
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
@@ -54,6 +59,7 @@ namespace Hotelos.Application.JobTypes
             return jobTypes;
         }
 
+        [Authorize(HotelosPermissions.UpdateJobType)]
         public async Task<GetJobTypeDto> Update(UpdateJobTypeDto updateJobTypeDto)
         {
             await ValidationErorrResult(new UpdateJobTypeDtoValidator(), updateJobTypeDto);

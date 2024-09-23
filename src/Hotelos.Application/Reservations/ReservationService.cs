@@ -10,6 +10,8 @@ using Hotelos.Domain.Clients;
 using Hotelos.Domain.Reservations;
 using Hotelos.Domain.Rooms;
 using Hotelos.Domain.Shared.Reservations.Enums;
+using Hotelos.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +37,7 @@ namespace Hotelos.Application.Reservations
         private readonly IDistributedCache<List<GetReservationDto>> _reservationsDistributedCache = reservationsDistributedCache;
         private readonly IBackgroundJobManager _backgroundJobManager = backgroundJobManager;
 
+        [Authorize(HotelosPermissions.CreateReservation)]
         public async Task<GetReservationDto> Create(CreateReservationDto createReservationDto)
         {
             await ValidationErorrResult(new CreateReservationDtoValidator(), createReservationDto);
@@ -88,6 +91,7 @@ namespace Hotelos.Application.Reservations
             return reservationDto;
         }
 
+        [Authorize(HotelosPermissions.DeleteReservation)]
         public async Task Delete(int id)
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
@@ -101,6 +105,7 @@ namespace Hotelos.Application.Reservations
             //problem with mapperly
         }
 
+        [Authorize(HotelosPermissions.GetReservations)]
         public async Task<List<GetReservationDto>> GetAll(GetReservationRequestDto getRoomsRequestDto)
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
@@ -110,6 +115,7 @@ namespace Hotelos.Application.Reservations
             return await GetReservationsFromDb(getRoomsRequestDto.ClientId, getRoomsRequestDto.RoomId, hotelId);
         }
 
+        [Authorize(HotelosPermissions.UpdateReservation)]
         public async Task PatchType(int id, ReservationType reservationType)
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
@@ -129,6 +135,7 @@ namespace Hotelos.Application.Reservations
             }
         }
 
+        [Authorize(HotelosPermissions.UpdateReservation)]
         public async Task<GetReservationDto> Update(UpdateReservationDto updateReservationDto)
         {
             await ValidationErorrResult(new UpdateReservationValidator(), updateReservationDto);
@@ -155,6 +162,7 @@ namespace Hotelos.Application.Reservations
             return mapper.ToDto(reservation);
         }
 
+        [Authorize(HotelosPermissions.UpdateReservation)]
         public async Task UpdateEntryDate(UpdateEntryDateReservationDto updateEntryDateReservationDto)
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
@@ -180,6 +188,7 @@ namespace Hotelos.Application.Reservations
             }
         }
 
+        [Authorize(HotelosPermissions.UpdateReservation)]
         public async Task UpdateExitDate(UpdateExitDateReservationDto updateExitDateReservationDto)
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();

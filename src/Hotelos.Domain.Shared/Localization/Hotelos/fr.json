@@ -41,10 +41,49 @@
       "Update": "Modifier le service",
       "Delete": "Supprimer le service",
       "Get": "Afficher les services"
+    },
+    "Reservation": {
+      "Name": "Réservations",
+      "Create": "Ajouter une réservation",
+      "Update": "Modifier la réservation",
+      "Delete": "Supprimer la réservation",
+      "Get": "Afficher les réservations"
+    },
+    "JobType": {
+      "Name": "Types d'emplois",
+      "Create": "Ajouter un type d'emploi",
+      "Update": "Modifier le type d'emploi",
+      "Delete": "Supprimer le type d'emploi",
+      "Get": "Afficher les types d'emplois"
+    },
+    "Employee": {
+      "Name": "Employés",
+      "Create": "Ajouter un employé",
+      "Update": "Modifier l'employé",
+      "Delete": "Supprimer l'employé",
+      "Get": "Afficher les employés"
+    },
+    "JobTime": {
+      "Name": "Horaires de travail",
+      "Create": "Ajouter un horaire de travail",
+      "Update": "Modifier l'horaire de travail",
+      "Delete": "Supprimer l'horaire de travail",
+      "Get": "Afficher les horaires de travail"
+    },
+    "Subscription": {
+      "Name": "Abonnements",
+      "Create": "Ajouter un abonnement",
+      "Update": "Modifier l'abonnement",
+      "Delete": "Supprimer l'abonnement",
+      "Get": "Afficher les abonnements"
+    },
+    "SubscriptionHotel": {
+      "Name": "Abonnements hôtels",
+      "Create": "Ajouter un abonnement hôtel",
+      "Update": "Modifier l'abonnement hôtel",
+      "Delete": "Supprimer l'abonnement hôtel",
+      "Get": "Afficher les abonnements hôtels"
     }
 
-
-
   }
-
 }

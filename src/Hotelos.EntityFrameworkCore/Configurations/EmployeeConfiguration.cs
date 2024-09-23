@@ -2,6 +2,7 @@
 using Hotelos.Domain.Hotels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Volo.Abp.Identity;
 
 namespace Hotelos.EntityFrameworkCore.Configurations
 {
@@ -26,6 +27,10 @@ namespace Hotelos.EntityFrameworkCore.Configurations
             builder.HasOne<Hotel>()
                    .WithMany()
                    .HasForeignKey(x => x.HotelId);
+
+            builder.HasOne<IdentityUser>()
+                   .WithMany()
+                   .HasForeignKey(x => x.UserId);
         }
     }
 }

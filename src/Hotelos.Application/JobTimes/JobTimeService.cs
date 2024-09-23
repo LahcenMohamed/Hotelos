@@ -4,6 +4,8 @@ using Hotelos.Application.Contracts.JobTimes.Dtos;
 using Hotelos.Application.JobTimes.Mappers;
 using Hotelos.Application.JobTimes.Validators;
 using Hotelos.Domain.Employees.Entities.JobTimes;
+using Hotelos.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ namespace Hotelos.Application.JobTimes
     {
         private readonly IRepository<JobTime> _jobTimeRepository = jobTimeRepository;
 
+        [Authorize(HotelosPermissions.CreateJobTime)]
         public async Task<GetJobTimeDto> Create(CreateJobTimeDto createJobTimeDto)
         {
             await ValidationErorrResult(new CreateJobTimeDtoValidator(), createJobTimeDto);
@@ -30,6 +33,7 @@ namespace Hotelos.Application.JobTimes
             return mapper.ToDto(jobTime);
         }
 
+        [Authorize(HotelosPermissions.DeleteJobTime)]
         public async Task Delete(int id)
         {
             var jobTime = await _jobTimeRepository.FirstOrDefaultAsync(x => x.Id == id);
@@ -40,12 +44,14 @@ namespace Hotelos.Application.JobTimes
             await _jobTimeRepository.DeleteAsync(jobTime, true);
         }
 
+        [Authorize(HotelosPermissions.GetJobTimes)]
         public async Task<List<GetJobTimeDto>> GetAll(int employeeId)
         {
             var jobTimes = await _jobTimeRepository.GetQueryableAsync();
             return jobTimes.Where(x => x.EmployeeId == employeeId).ToDto().ToList();
         }
 
+        [Authorize(HotelosPermissions.UpdateJobTime)]
         public async Task<GetJobTimeDto> Update(UpdateJobTimeDto updateJobTimeDto)
         {
             await ValidationErorrResult(new UpdateJobTimeDtoValidator(), updateJobTimeDto);

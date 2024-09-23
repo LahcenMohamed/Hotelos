@@ -5,6 +5,8 @@ using Hotelos.Application.Employees.Mappers;
 using Hotelos.Application.Employees.Validator;
 using Hotelos.Domain.Employees;
 using Hotelos.Domain.Employees.Entities.JobTypes;
+using Hotelos.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +20,7 @@ namespace Hotelos.Application.Employees
         private readonly IRepository<Employee> _employeeRepository = employeeRepository;
         private readonly IRepository<JobType> _jobTypeRepository = jobTypeRepository;
 
+        [Authorize(HotelosPermissions.CreateEmployee)]
         public async Task<GetEmployeeDto> Create(CreateEmployeeDto createEmployeeDto)
         {
             await ValidationErorrResult(new CreateEmployeeDtoValidator(), createEmployeeDto);
@@ -32,6 +35,7 @@ namespace Hotelos.Application.Employees
                                            createEmployeeDto.Salary,
                                            hotelId,
                                            userId,
+                                           createEmployeeDto.UserId,
                                            createEmployeeDto.JobTypeId,
                                            createEmployeeDto.Description);
             await _employeeRepository.InsertAsync(employee, true);
@@ -40,6 +44,7 @@ namespace Hotelos.Application.Employees
             return mapper.ToDto(employee);
         }
 
+        [Authorize(HotelosPermissions.DeleteEmployee)]
         public async Task Delete(int id)
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
@@ -47,6 +52,7 @@ namespace Hotelos.Application.Employees
             await _employeeRepository.DeleteAsync(employee, true);
         }
 
+        [Authorize(HotelosPermissions.GetEmployees)]
         public async Task<List<GetEmployeeDto>> GetAll()
         {
             (var hotelId, var userId) = GetHotelIdAndUserId();
@@ -54,6 +60,7 @@ namespace Hotelos.Application.Employees
             return employees.Where(x => x.HotelId == hotelId).ToDto().ToList();
         }
 
+        [Authorize(HotelosPermissions.UpdateEmployee)]
         public async Task<GetEmployeeDto> Update(UpdateEmployeeDto updateEmployeeDto)
         {
             await ValidationErorrResult(new UpdateEmployeeDtoValidator(), updateEmployeeDto);

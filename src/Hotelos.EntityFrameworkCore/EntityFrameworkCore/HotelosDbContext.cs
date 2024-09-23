@@ -9,6 +9,8 @@ using Hotelos.Domain.Rooms;
 using Hotelos.Domain.Rooms.Entities.Floors;
 using Hotelos.Domain.Rooms.Entities.RoomsTypes;
 using Hotelos.Domain.Services;
+using Hotelos.Domain.Subscription.Entities.SubscriptionHotels;
+using Hotelos.Domain.Subscriptions;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -77,6 +79,8 @@ public class HotelosDbContext :
     public DbSet<JobType> JobTypes { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<JobTime> JobTimes { get; set; }
+    public DbSet<Subscription> Subscriptions { get; set; }
+    public DbSet<SubscriptionHotel> SubscriptionHotels { get; set; }
 
     #endregion
 

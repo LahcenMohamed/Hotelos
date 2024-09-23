@@ -41,7 +41,48 @@
       "Update": "Edit service",
       "Delete": "Remove service",
       "Get": "Show services"
+    },
+    "Reservation": {
+      "Name": "Reservations",
+      "Create": "Add reservation",
+      "Update": "Edit reservation",
+      "Delete": "Remove reservation",
+      "Get": "Show reservations"
+    },
+    "JobType": {
+      "Name": "JobTypes",
+      "Create": "Add jobType",
+      "Update": "Edit jobType",
+      "Delete": "Remove jobType",
+      "Get": "Show jobTypes"
+    },
+    "Employee": {
+      "Name": "Employees",
+      "Create": "Add employee",
+      "Update": "Edit employee",
+      "Delete": "Remove employee",
+      "Get": "Show employees"
+    },
+    "JobTime": {
+      "Name": "JobTimes",
+      "Create": "Add jobTime",
+      "Update": "Edit jobTime",
+      "Delete": "Remove jobTime",
+      "Get": "Show jobTimes"
+    },
+    "Subscription": {
+      "Name": "Subscriptions",
+      "Create": "Add subscription",
+      "Update": "Edit subscription",
+      "Delete": "Remove subscription",
+      "Get": "Show subscriptions"
+    },
+    "SubscriptionHotel": {
+      "Name": "Subscriptions hotels",
+      "Create": "Add subscription hotel",
+      "Update": "Edit subscription hotel",
+      "Delete": "Remove subscription hotel",
+      "Get": "Show subscriptions hotels"
     }
   }
-
 }

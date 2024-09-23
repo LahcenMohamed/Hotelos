@@ -43,6 +43,42 @@ public class HotelosPermissionDefinitionProvider : PermissionDefinitionProvider
         serviceGroup.AddPermission(HotelosPermissions.DeleteService, L("Permission:Services:Delete"));
         serviceGroup.AddPermission(HotelosPermissions.GetServices, L("Permission:Services:Get"));
 
+        var reservationGroup = context.AddGroup(HotelosPermissions.ReservationGroupName, L("Permission:Reservations:Name"));
+        reservationGroup.AddPermission(HotelosPermissions.CreateReservation, L("Permission:Reservations:Create"));
+        reservationGroup.AddPermission(HotelosPermissions.UpdateReservation, L("Permission:Reservations:Update"));
+        reservationGroup.AddPermission(HotelosPermissions.DeleteReservation, L("Permission:Reservations:Delete"));
+        reservationGroup.AddPermission(HotelosPermissions.GetReservations, L("Permission:Reservations:Get"));
+
+        var jobTypeGroup = context.AddGroup(HotelosPermissions.JobTypeGroupName, L("Permission:JobTypes:Name"));
+        jobTypeGroup.AddPermission(HotelosPermissions.CreateJobType, L("Permission:JobTypes:Create"));
+        jobTypeGroup.AddPermission(HotelosPermissions.UpdateJobType, L("Permission:JobTypes:Update"));
+        jobTypeGroup.AddPermission(HotelosPermissions.DeleteJobType, L("Permission:JobTypes:Delete"));
+        jobTypeGroup.AddPermission(HotelosPermissions.GetJobTypes, L("Permission:JobTypes:Get"));
+
+        var employeeGroup = context.AddGroup(HotelosPermissions.EmployeeGroupName, L("Permission:Employees:Name"));
+        employeeGroup.AddPermission(HotelosPermissions.CreateEmployee, L("Permission:Employees:Create"));
+        employeeGroup.AddPermission(HotelosPermissions.UpdateEmployee, L("Permission:Employees:Update"));
+        employeeGroup.AddPermission(HotelosPermissions.DeleteEmployee, L("Permission:Employees:Delete"));
+        employeeGroup.AddPermission(HotelosPermissions.GetEmployees, L("Permission:Employees:Get"));
+
+        var jobTimeGroup = context.AddGroup(HotelosPermissions.JobTimeGroupName, L("Permission:JobTimes:Name"));
+        jobTimeGroup.AddPermission(HotelosPermissions.CreateJobTime, L("Permission:JobTimes:Create"));
+        jobTimeGroup.AddPermission(HotelosPermissions.UpdateJobTime, L("Permission:JobTimes:Update"));
+        jobTimeGroup.AddPermission(HotelosPermissions.DeleteJobTime, L("Permission:JobTimes:Delete"));
+        jobTimeGroup.AddPermission(HotelosPermissions.GetJobTimes, L("Permission:JobTimes:Get"));
+
+        var subscriptionGroup = context.AddGroup(HotelosPermissions.SubscriptionGroupName, L("Permission:Subscriptions:Name"));
+        subscriptionGroup.AddPermission(HotelosPermissions.CreateSubscription, L("Permission:Subscriptions:Create"));
+        subscriptionGroup.AddPermission(HotelosPermissions.UpdateSubscription, L("Permission:Subscriptions:Update"));
+        subscriptionGroup.AddPermission(HotelosPermissions.DeleteSubscription, L("Permission:Subscriptions:Delete"));
+        subscriptionGroup.AddPermission(HotelosPermissions.GetSubscriptions, L("Permission:Subscriptions:Get"));
+
+        var subscriptionHotelGroup = context.AddGroup(HotelosPermissions.SubscriptionHotelGroupName, L("Permission:SubscriptionHotels:Name"));
+        subscriptionHotelGroup.AddPermission(HotelosPermissions.CreateSubscriptionHotel, L("Permission:SubscriptionHotels:Create"));
+        subscriptionHotelGroup.AddPermission(HotelosPermissions.UpdateSubscriptionHotel, L("Permission:SubscriptionHotels:Update"));
+        subscriptionHotelGroup.AddPermission(HotelosPermissions.DeleteSubscriptionHotel, L("Permission:SubscriptionHotels:Delete"));
+        subscriptionHotelGroup.AddPermission(HotelosPermissions.GetSubscriptionHotels, L("Permission:SubscriptionHotels:Get"));
+
         //Define your own permissions here. Example:
         //myGroup.AddPermission(HotelosPermissions.MyPermission1, L("Permission:MyPermission1"));
     }
